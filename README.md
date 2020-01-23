@@ -1,4 +1,5 @@
-# mr-dee
+# Web Form with Vue.js
+A contact form page created with Vue JS
 
 ## Project setup
 ```
