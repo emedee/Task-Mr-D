@@ -11,7 +11,6 @@
                             <th scope="col">{{ headerFour }}</th>
                             <th scope="col">{{ headerFive }}</th>
                             <th scope="col">{{ headerSix }}</th>
-                            <th scope="col">{{ headerSeven }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,41 +22,44 @@
                             <td>{{person.city}}</td>
                             <td>{{person.score}}</td>
                             <td>
-                                <button class="btn btn-danger">Delete</button>
-                                <button class="btn btn-primary">Edit</button>
+                                <button class="btn btn-danger" @click='deleteContact(i)'>Delete</button>
+                                <button class="btn btn-primary" @click='editContact(person)'>Edit</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <div class="style">
+                    <p>{{ total }}</p>
+                </div>
             </div>
             <div class="col-md-4">
                 <div class="card shadow p-4">
                     <h2 class="mb-4">{{ message }}</h2>
-                    <form>
+                    <form @submit.prevent="addContact">
                         <div class="form-group">
                             <label>{{ message2 }}</label>
-                            <input type="text" class="form-control">
+                            <input v-model="user.name" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>{{ message3 }}</label>
-                            <input type="Email" class="form-control">
+                            <input v-model="user.email" type="Email" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>{{ message4 }}</label>
-                            <input type="text" class="form-control">
+                            <input v-model="user.role" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>{{ message5 }}</label>
-                            <input type="text" class="form-control">
+                            <input v-model="user.city" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>{{ message6 }}</label>
-                            <input type="text" class="form-control">
+                            <input v-model="user.score" type="text" class="form-control">
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary ml-3">{{ message7 }}</button>
-                            <button type="button" class="btn btn-secondary">{{ message8 }}</button>
-                            <button type="reset" class="btn btn-danger">{{ message9 }}</button>
+                            <button type="submit" class="btn btn-primary ml-3" v-if='status'>{{ message7 }}</button>
+                            <button type="button" class="btn btn-secondary"  @click='updateContact' v-else>{{ message8 }}</button>
+                            <button type="reset" class="btn btn-danger ml-3">{{ message9 }}</button>
                         </div>
                     </form>
                 </div>
@@ -76,7 +78,7 @@ export default {
             headerFour: 'ROLE',
             headerFive: 'CITY',
             headerSix: 'SCORE',
-            message1: 'Please add new users',
+            message: 'Please add new users',
             message2: 'Name',
             message3: 'Email',
             message4: 'Role',
@@ -130,7 +132,27 @@ export default {
         }
     },
     methods: {
-        
+        deleteContact(i){
+           this.persons.splice(i, 1);
+           this.user = ''
+        },
+        editContact(id){
+           this.user = id;
+           this.status = !this.status;
+        },
+        addContact(){
+            this.persons.push(this.user);
+        },
+        updateContact(){
+            alert('Contact has been updated')
+        }
     }
 }
 </script>
+
+<style scoped>
+    .style{
+        color: white;
+        background-color: black;
+    }
+</style>
