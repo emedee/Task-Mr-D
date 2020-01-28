@@ -28,9 +28,6 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="style">
-                    <p>{{ total }}</p>
-                </div>
             </div>
             <div class="col-md-4">
                 <div class="card shadow p-4">
@@ -56,10 +53,13 @@
                             <label>{{ message6 }}</label>
                             <input v-model="user.score" type="text" class="form-control">
                         </div>
-                        <div class="form-group">
+                        <div class="style">
+                            <p>The total score is {{ totalScore }} </p>
+                        </div>
+                        <div class="form-group mlto">
                             <button type="submit" class="btn btn-primary ml-3" v-if='status'>{{ message7 }}</button>
                             <button type="button" class="btn btn-secondary"  @click='updateContact' v-else>{{ message8 }}</button>
-                            <button type="reset" class="btn btn-danger ml-3">{{ message9 }}</button>
+                            <button type="reset" class="btn btn-danger ml-3" @click='resetField'>{{ message9 }}</button>
                         </div>
                     </form>
                 </div>
@@ -138,13 +138,26 @@ export default {
         },
         editContact(id){
            this.user = id;
-           this.status = !this.status;
+           this.status = false;
         },
         addContact(){
             this.persons.push(this.user);
         },
         updateContact(){
             alert('Contact has been updated')
+        },
+        resetField(){
+            this.status = true;
+        },
+        
+    },
+    computed: {
+        totalScore(){
+            let sum = 0
+            for(let i=0; i < this.persons.length; i++){
+                sum = sum + parseInt(this.persons[i].score);
+            }
+            return sum;
         }
     }
 }
@@ -152,7 +165,14 @@ export default {
 
 <style scoped>
     .style{
-        color: white;
-        background-color: black;
+        text-align: center;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 10px;
+    }
+    .mlto{
+        display: flex;
+        justify-content: center;
     }
 </style>
